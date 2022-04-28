@@ -87,8 +87,29 @@ app.get('/', (req,res) => {
             doc += `<li>${category}</li>`;
         });
         doc += "</ul>";
+        doc += `<a href="/movie/${movie.id}/${movie.slug}">More info</a>`;
         doc += "</section>";
     });
+    res.send(doc);
+})
+
+app.get('/movie/:id/:slug', (req, res) => {
+    console.log(req.params.id)
+    const movie = movies.find( element => element.id == req.params.id)
+    console.log(movie)
+      // RENDER PAGE
+    let doc = '<!doctype html>';
+    doc += `<title>Movie details for ${movie.name}</title>`;
+    doc += `<h1>${movie.name}</h1>`;
+    doc += `<h2>${movie.year}</h2>`;
+    doc += "<h2>Categories</h2>";
+    doc += "<ul>";
+    movie.categories.forEach( category => {
+        doc += `<li>${category}</li>`;
+    })
+    doc += "</ul>";
+    doc += `<p>${movie.storyline}</p>`;
+    
     res.send(doc);
 })
 
